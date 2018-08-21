@@ -4,25 +4,32 @@ const apiRouter = Router()
 
 apiRouter.get('/', (req, res)=>{
   res.json({
-    '/api/users': 'Show users',
-    '/api/messages': 'Show messages'
+    '/api/companies': 'Show Companies'
+    //'/api/messages': 'Show messages'
   })
 })
 
-apiRouter.get('/users', (req, res)=>{
-  res.json([
-    {id: 1, name: 'Steffi', age: 25},
-    {id: 2, name: 'Adrian', age: 28},
-    {id: 3, name: 'Bertha', age: 77}
-  ])
+apiRouter.get('/companies', (req, res)=>{
+
+  const db = req.app.locals.db
+  db.select('*').from('companies')
+   .then((dbRecordsReturned)=>{
+     res.status(200).json(dbRecordsReturned)
+   })
 })
 
-apiRouter.get('/messages', (req, res)=>{
-  res.json([
-    { id: 1, user_id: 2, body: 'Hey Bertha!'},
-    { id: 2, user_id: 3, body: 'Hey Steffi!'},
-    { id: 3, user_id: 2, body: 'Good to see you'}
-  ])
+apiRouter.get('/companies/:_id', (req, res)=>{
+  const db = req.app.locals.db
+
+  const idInRoute = req.params._id
+  console.log(idInRoute);
+
+  db.select('*').from('companies')
+    .where('id', '=', idInRoute)
+    .then((records)=>{
+      res.json(records[0])
+    })
+
 })
 
 module.exports = apiRouter

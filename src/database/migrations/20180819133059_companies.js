@@ -13,7 +13,7 @@ exports.up = function(knex, Promise) {
     .schema
     .createTable('companies', (companyTable)=>{
       // Add incremting primary key column
-      companyTable.increments('id');
+      companyTable.increments();
 
       // Add data columns
       companyTable.string('title').notNullable()

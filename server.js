@@ -2,12 +2,14 @@ const express = require('express')
 const ejs = require('ejs')
 
 const knex = require('knex')
+const { Model } = require('objection');
 const dbConfigObj = require('./knexfile.js')
 const pageRouter = require('./src/routes/pageRouter.js')
 const apiRouter = require('./src/routes/apiRouter.js')
 
 const app = express()
 const appDb = knex(dbConfigObj.development)
+Model.knex(appDb)
 app.locals.db = appDb
 const PORT = 3000
 

@@ -71,6 +71,14 @@ const editOneCom = (req, res)=>{
    })
 }
 
+const deleteOneJCom = (req, res)=>{
+  Company.query()
+    .deleteById(req.params._id)
+    .then((dbResponse)=>{
+      res.status(200).json(dbResponse)
+    })
+}
+
 const fetchManJob = (req, res)=>{
   Job.query()
     .eager('company')
@@ -145,6 +153,7 @@ apiRouter
   .get('/companies/:_id', fetchOneCom)
   .post('/companies', createOneCom)
   .put('/companies/:_id', editOneCom )
+  .delete('/companies/:_id', deleteOneJCom)
 
 apiRouter
   .get('/jobs', fetchManJob)

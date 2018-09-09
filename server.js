@@ -47,20 +47,27 @@ passport.use(registerLocalStrategy())
 passport.serializeUser(configSerializeUser())
 passport.deserializeUser(configDeserializeUser())
 
-app.use('/auth', authRouter )
-app.use('/api', apiRouter)
-app.use('/', pageRouter)
-
 app.use(express.static(`${__dirname}/public`))
 
 app.engine('ejs', ejs.renderFile)
 app.set('view engine', 'ejs')
 app.set('views', `${__dirname}/src/views`)
 
+app.use('/auth', authRouter )
+app.use('/api', apiRouter)
+app.use('/', pageRouter)
+
+app.use((req, res)=>{
+  res.render('reactApp.ejs')
+})
+
 app.use((req, res)=>{
   res.render('404.ejs')
 })
 
 app.listen(PORT, ()=>{
+  console.log('==================RSIL========')
   console.log(`App listening on localhost:${PORT}`);
+  console.log(`Environment : ${process.env.NODE_ENV}`)
+  console.log('========RSIL==================')
 })
